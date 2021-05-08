@@ -1,9 +1,6 @@
 <template>
     <v-container>
-        <Login
-            v-on:loggedIn="onLogin"
-            v-if="token === null"
-        ></Login>
+        <Login v-on:loggedIn="onLogin" v-if="token === null"></Login>
     </v-container>
 </template>
 
@@ -27,6 +24,7 @@ export default {
             this.token = value.token;
             this.leagues = value.leagues;
             console.log("Logged in");
+            console.log(value.user);
         },
     },
 };
