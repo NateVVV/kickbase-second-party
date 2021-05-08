@@ -20,7 +20,7 @@ export default class LeagueData {
         this.creator = creator;
         this.creatorId = creatorId;
         this.creation = creation;
-        this.activity_index = ai;
+        this.activityIndex = ai;
         this.totalTransfers = t;
         this.activeUsers = au;
         this.maxUsers = mu;
