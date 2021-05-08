@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import credentials from "@/lib/credentials.js";
-
 import Login from "@/components/Login.vue";
 
 export default {
@@ -20,8 +18,6 @@ export default {
     components: { Login },
 
     data: () => ({
-        email: credentials.email,
-        password: credentials.password,
         user: null,
         token: null,
         leagues: null,

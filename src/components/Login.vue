@@ -11,13 +11,15 @@
 </template>
 
 <script>
+import credentials from "@/lib/credentials.js";
 import { login } from "@/lib/kickbase.js";
+
 export default {
     name: "login",
-    props: {
-        email: String,
-        password: String,
-    },
+    data: () => ({
+        email: credentials.email,
+        password: credentials.password,
+    }),
     methods: {
         login: async function() {
             let { user, token, leagues } = await login(
