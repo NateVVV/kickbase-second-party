@@ -6,6 +6,7 @@
 
 <script>
 import Login from "@/components/Login.vue";
+import { myLeagueInfo } from "@/lib/kickbase.js";
 
 export default {
     name: "Home",
@@ -19,12 +20,17 @@ export default {
     }),
 
     methods: {
-        onLogin: function(value) {
+        onLogin: async function(value) {
             this.user = value.user;
             this.token = value.token;
             this.leagues = value.leagues;
             console.log("Logged in");
-            console.log(value.user);
+            console.log(this.user);
+            console.log(this.leagues);
+            for (let league of this.leagues) {
+                let leagueInfo = await myLeagueInfo(league.id, this.token);
+                console.log(leagueInfo);
+            }
         },
     },
 };

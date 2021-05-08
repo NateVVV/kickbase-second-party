@@ -13,7 +13,6 @@
 <script>
 import credentials from "@/lib/credentials.js";
 import { login } from "@/lib/kickbase.js";
-import User from "@/lib/models/user.js";
 
 export default {
     name: "login",
@@ -27,7 +26,7 @@ export default {
                 this.email,
                 this.password
             );
-            this.$emit("loggedIn", { user: new User(user), token, leagues });
+            this.$emit("loggedIn", { user, token, leagues });
         },
     },
 };
