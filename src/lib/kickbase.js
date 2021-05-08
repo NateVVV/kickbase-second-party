@@ -41,4 +41,19 @@ async function myLeagueInfo(leagueId, accessToken) {
     }
 }
 
-export { login, myLeagueInfo };
+async function getLeagues(accessToken) {
+    try {
+        const { data } = await axios.post(
+            `https://europe-west3-kickbase-312916.cloudfunctions.net/leagues`,
+            {
+                token: accessToken,
+            }
+        );
+        const { leagues } = data;
+        return leagues.map((league) => new LeagueData(league));
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { login, myLeagueInfo, getLeagues };
