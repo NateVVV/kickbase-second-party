@@ -11,8 +11,8 @@ async function login(email, password) {
             }
         );
         console.log(`status Code: ${status}`);
-        let { token, leagues } = data;
-        return { token, leagues };
+        let { user, token, leagues } = data;
+        return { user, token, leagues };
     } catch (err) {
         console.error(err);
     }
