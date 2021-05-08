@@ -1,40 +1,38 @@
 <template>
     <v-container>
-        <v-text-field label="Email" v-model="email"></v-text-field>
-        <v-text-field
-            label="Password"
-            type="password"
-            v-model="password"
-        ></v-text-field>
-        <v-btn @click="login">Login</v-btn>
+        <Login
+            :email="email"
+            :password="password"
+            v-on:loggedIn="onLogin"
+            v-if="token === null"
+        ></Login>
     </v-container>
 </template>
 
 <script>
-import * as kickbase from "@/lib/kickbase.js";
 import credentials from "@/lib/credentials.js";
+
+import Login from "@/components/Login.vue";
 
 export default {
     name: "Home",
 
-    components: {},
+    components: { Login },
 
     data: () => ({
         email: credentials.email,
         password: credentials.password,
+        user: null,
+        token: null,
+        leagues: null,
     }),
 
     methods: {
-        login: async function() {
-            let { token, leagues } = await kickbase.login(
-                this.email,
-                this.password
-            );
-            console.log(token);
-            console.log(leagues);
-            let binBlau = leagues[0];
-            let leagueInfo = await kickbase.leagueInfo(binBlau.id, token);
-            console.log(leagueInfo);
+        onLogin: function(value) {
+            this.user = value.user;
+            this.token = value.token;
+            this.leagues = value.leagues;
+            console.log("Logged in");
         },
     },
 };
