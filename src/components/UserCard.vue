@@ -12,7 +12,7 @@
 import User from "@/lib/models/user.js";
 
 export default {
-    name: "User",
+    name: "UserCard",
     props: {
         user: User,
     },
