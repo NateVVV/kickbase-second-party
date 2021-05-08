@@ -1,8 +1,6 @@
 <template>
     <v-container>
         <Login
-            :email="email"
-            :password="password"
             v-on:loggedIn="onLogin"
             v-if="token === null"
         ></Login>
