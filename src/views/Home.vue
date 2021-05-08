@@ -1,19 +1,19 @@
 <template>
     <v-container>
         <Login v-on:loggedIn="onLogin" v-if="token === null"></Login>
-        <User :user="user" v-if="token !== null"></User>
+        <UserCard :user="user" v-if="token !== null"></UserCard>
     </v-container>
 </template>
 
 <script>
 import Login from "@/components/Login.vue";
-import User from "@/components/User.vue";
+import UserCard from "@/components/UserCard.vue";
 import { myLeagueInfo } from "@/lib/kickbase.js";
 
 export default {
     name: "Home",
 
-    components: { Login, User },
+    components: { Login, UserCard },
 
     data: () => ({
         user: null,
