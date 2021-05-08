@@ -6,7 +6,9 @@
             type="password"
             v-model="password"
         ></v-text-field>
-        <v-btn @click="login">Login</v-btn>
+        <v-btn @click="login" :loading="loading" :disabled="loading">
+            Login
+        </v-btn>
     </v-container>
 </template>
 
@@ -15,18 +17,21 @@ import credentials from "@/lib/credentials.js";
 import { login } from "@/lib/kickbase.js";
 
 export default {
-    name: "login",
+    name: "Login",
     data: () => ({
         email: credentials.email,
         password: credentials.password,
+        loading: false,
     }),
     methods: {
         login: async function() {
+            this.loading = true;
             let { user, token, leagues } = await login(
                 this.email,
                 this.password
             );
             this.$emit("loggedIn", { user, token, leagues });
+            this.loading = false;
         },
     },
 };
