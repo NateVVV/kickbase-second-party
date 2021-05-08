@@ -28,7 +28,7 @@ async function login(email, password) {
 async function myLeagueInfo(leagueId, accessToken) {
     try {
         let { status, data } = await axios.post(
-            "https://europe-west3-kickbase-312916.cloudfunctions.net/leagueInfo",
+            "https://europe-west3-kickbase-312916.cloudfunctions.net/myLeague",
             {
                 token: accessToken,
                 leagueId: leagueId,
