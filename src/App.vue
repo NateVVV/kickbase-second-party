@@ -1,6 +1,9 @@
 <template>
     <v-app>
         <v-app-bar app color="primary" dark>
+            <v-app-bar-nav-icon
+                @click.stop="drawer = !drawer"
+            ></v-app-bar-nav-icon>
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
@@ -32,14 +35,29 @@
                 <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
         </v-app-bar>
+        <v-navigation-drawer app v-model="drawer" class="pt-4">
+            <v-list nav dense>
+                <v-list-item-group
+                    v-model="leagueGroup"
+                    active-class="deep-purple--text text--accent-4"
+                    v-show="leagues"
+                >
+                    <v-list-item v-for="league in leagues" :key="league.id">
+                        <v-list-item-title>{{ league.name }}</v-list-item-title>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
 
         <v-main>
             <Login v-on:loggedIn="onLogin" v-if="token === null"></Login>
-            <UserCard :user="user" v-if="token !== null"></UserCard>
+            <UserCard
+                :user="user"
+                v-if="token !== null && leagueGroup === null"
+            ></UserCard>
             <LeagueDataCard
-                v-for="league in leagues"
-                :key="league.id"
-                :league="league"
+                v-if="leagueGroup !== null"
+                :league="leagues[leagueGroup]"
             ></LeagueDataCard>
         </v-main>
     </v-app>
@@ -60,7 +78,15 @@ export default {
         user: null,
         token: null,
         leagues: null,
+        drawer: false,
+        leagueGroup: null,
     }),
+    watch: {
+        leagueGroup() {
+            this.drawer = false;
+            console.log(this.leagueGroup);
+        },
+    },
     methods: {
         onLogin: async function(value) {
             this.user = value.user;
