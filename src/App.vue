@@ -87,7 +87,6 @@ export default {
     watch: {
         leagueGroup() {
             this.drawer = false;
-            console.log(this.leagueGroup);
         },
     },
     methods: {
