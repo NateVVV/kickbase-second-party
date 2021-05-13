@@ -26,7 +26,6 @@ export default {
     },
     created: async function() {
         let leagueInfo = await myLeagueInfo(this.league.id, this.token);
-        console.log(leagueInfo);
         this.myLeague = leagueInfo;
     },
     watch: {
