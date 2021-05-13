@@ -30,8 +30,8 @@ export default {
                 this.email,
                 this.password
             );
-            this.$emit("loggedIn", { user, token, leagues });
-            this.$store.commit("setToken", token)
+            this.$store.commit("setToken", token);
+            this.$emit("loggedIn", { user, leagues });
             this.loading = false;
         },
     },
