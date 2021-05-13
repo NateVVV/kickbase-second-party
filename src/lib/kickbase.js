@@ -1,5 +1,5 @@
 import axios from "axios";
-import User from "@/lib/models/user.js";
+import { User } from "@/lib/models/user.js";
 import LeagueData from "@/lib/models/league_data.js";
 import MyLeague from "@/lib/models/my_league.js";
 
