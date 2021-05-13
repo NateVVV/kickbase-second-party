@@ -41,6 +41,7 @@
                     v-model="leagueGroup"
                     active-class="deep-purple--text text--accent-4"
                     v-show="leagues"
+                    mandatory
                 >
                     <v-list-item v-for="league in leagues" :key="league.id">
                         <v-list-item-title>{{ league.name }}</v-list-item-title>
