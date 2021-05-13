@@ -31,6 +31,7 @@ export default {
                 this.password
             );
             this.$emit("loggedIn", { user, token, leagues });
+            this.$store.commit("setToken", token)
             this.loading = false;
         },
     },
