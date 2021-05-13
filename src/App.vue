@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import UserCard from "@/components/UserCard.vue";
 import LeagueDataCard from "@/components/LeagueDataCard.vue";
@@ -76,11 +77,13 @@ export default {
 
     data: () => ({
         user: null,
-        token: null,
         leagues: null,
         drawer: false,
         leagueGroup: null,
     }),
+    computed: {
+        ...mapGetters(["token"]),
+    },
     watch: {
         leagueGroup() {
             this.drawer = false;
@@ -88,11 +91,9 @@ export default {
         },
     },
     methods: {
-        onLogin: async function(value) {
-            this.user = value.user;
-            this.token = value.token;
-            this.leagues = value.leagues;
-            console.log("Logged in");
+        onLogin: async function({ user, leagues }) {
+            this.user = user;
+            this.leagues = leagues;
             console.log(this.user);
             console.log(this.leagues);
             for (let league of this.leagues) {
