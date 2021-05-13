@@ -2,7 +2,14 @@
     <v-container>
         <LeagueDataCard :league="league"></LeagueDataCard>
         <MyLeagueCard :league="myLeague" v-if="myLeague != null"></MyLeagueCard>
-        <UserCard v-for="user in users" :key="user.id" :user="user"></UserCard>
+        <v-card flat tile class="d-flex flex-wrap justify-start align-start">
+            <UserCard
+                v-for="user in users"
+                :key="user.id"
+                :user="user"
+                class="ma-3"
+            ></UserCard>
+        </v-card>
     </v-container>
 </template>
 
