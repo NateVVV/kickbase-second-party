@@ -5,7 +5,7 @@ import MyLeague from "@/lib/models/my_league.js";
 
 async function login(email, password) {
     try {
-        let { data, status } = await axios.post(
+        let { data } = await axios.post(
             "https://europe-west3-kickbase-312916.cloudfunctions.net/login",
             {
                 email: email,
@@ -13,7 +13,6 @@ async function login(email, password) {
                 ext: false,
             }
         );
-        console.log(`status Code: ${status}`);
         let { user, token, leagues } = data;
         return {
             user: new User(user),
@@ -27,14 +26,13 @@ async function login(email, password) {
 
 async function myLeagueInfo(leagueId, accessToken) {
     try {
-        let { status, data } = await axios.post(
+        let { data } = await axios.post(
             "https://europe-west3-kickbase-312916.cloudfunctions.net/myLeague",
             {
                 token: accessToken,
                 leagueId: leagueId,
             }
         );
-        console.log(`status code: ${status}`);
         return new MyLeague(data);
     } catch (err) {
         console.error(err);
