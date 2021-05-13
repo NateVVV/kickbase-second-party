@@ -55,10 +55,10 @@
                 :user="user"
                 v-if="token !== null && leagueGroup === null"
             ></UserCard>
-            <LeagueDataCard
+            <League
                 v-if="leagueGroup !== null"
                 :league="leagues[leagueGroup]"
-            ></LeagueDataCard>
+            ></League>
         </v-main>
     </v-app>
 </template>
@@ -67,13 +67,12 @@
 import { mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import UserCard from "@/components/UserCard.vue";
-import LeagueDataCard from "@/components/LeagueDataCard.vue";
-import { myLeagueInfo } from "@/lib/kickbase.js";
+import League from "@/views/League.vue";
 
 export default {
     name: "App",
 
-    components: { Login, UserCard, LeagueDataCard },
+    components: { Login, UserCard, League },
 
     data: () => ({
         user: null,
@@ -95,10 +94,6 @@ export default {
             this.leagues = leagues;
             console.log(this.user);
             console.log(this.leagues);
-            for (let league of this.leagues) {
-                let leagueInfo = await myLeagueInfo(league.id, this.token);
-                console.log(leagueInfo);
-            }
         },
     },
 };
