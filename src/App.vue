@@ -38,7 +38,7 @@
         <v-navigation-drawer app v-model="drawer" class="pt-4">
             <v-list nav dense>
                 <v-list-item-group
-                    v-model="leagueGroup"
+                    v-model="selectedLeague"
                     active-class="deep-purple--text text--accent-4"
                     v-show="leagues"
                     mandatory
@@ -54,11 +54,11 @@
             <Login v-on:loggedIn="onLogin" v-if="token === null"></Login>
             <UserCard
                 :user="user"
-                v-if="token !== null && leagueGroup === null"
+                v-if="token !== null && selectedLeague === null"
             ></UserCard>
             <League
-                v-if="leagueGroup !== null"
-                :league="leagues[leagueGroup]"
+                v-if="selectedLeague !== null"
+                :league="leagues[selectedLeague]"
             ></League>
         </v-main>
     </v-app>
@@ -79,13 +79,13 @@ export default {
         user: null,
         leagues: null,
         drawer: false,
-        leagueGroup: null,
+        selectedLeague: null,
     }),
     computed: {
         ...mapGetters(["token"]),
     },
     watch: {
-        leagueGroup() {
+        selectedLeague() {
             this.drawer = false;
         },
     },
