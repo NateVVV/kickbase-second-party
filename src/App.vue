@@ -79,11 +79,13 @@
                                 "
                             ></UserCard>
                             <League
-                                v-if="
-                                    token !== null && selectedCategory == 0
-                                "
+                                v-if="token !== null && selectedCategory == 0"
                                 :league="leagues[selectedLeague]"
                             ></League>
+                            <LeagueUsers
+                                v-if="token !== null && selectedCategory == 1"
+                                :league="leagues[selectedLeague]"
+                            ></LeagueUsers>
                         </v-sheet>
                     </v-col>
                 </v-row>
@@ -97,11 +99,12 @@ import { mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import UserCard from "@/components/UserCard.vue";
 import League from "@/views/League.vue";
+import LeagueUsers from "@/views/LeagueUsers.vue";
 
 export default {
     name: "App",
 
-    components: { Login, UserCard, League },
+    components: { Login, UserCard, League, LeagueUsers },
 
     data: () => ({
         user: null,

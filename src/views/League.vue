@@ -2,14 +2,6 @@
     <v-container>
         <LeagueDataCard :league="league"></LeagueDataCard>
         <MyLeagueCard :league="myLeague" v-if="myLeague != null"></MyLeagueCard>
-        <v-card flat tile class="d-flex flex-wrap justify-start align-start">
-            <UserCard
-                v-for="user in users"
-                :key="user.id"
-                :user="user"
-                class="ma-3"
-            ></UserCard>
-        </v-card>
     </v-container>
 </template>
 
@@ -17,11 +9,11 @@
 import { mapGetters } from "vuex";
 import LeagueDataCard from "@/components/LeagueDataCard.vue";
 import MyLeagueCard from "@/components/MyLeagueCard.vue";
-import UserCard from "@/components/UserCard.vue";
 import LeagueData from "@/lib/models/league_data.js";
 import {
     myLeagueInfo,
     getLeagueUsers,
+    getUserProfile,
 } from "@/lib/kickbase.js";
 
 export default {
@@ -29,10 +21,9 @@ export default {
     props: {
         league: LeagueData,
     },
-    components: { LeagueDataCard, MyLeagueCard, UserCard },
+    components: { LeagueDataCard, MyLeagueCard },
     data: () => ({
         myLeague: null,
-        users: [],
     }),
     computed: {
         ...mapGetters(["token"]),
@@ -40,18 +31,21 @@ export default {
     created: async function() {
         let leagueInfo = await myLeagueInfo(this.league.id, this.token);
         this.myLeague = leagueInfo;
+        return;
 
-        let users = await getLeagueUsers(this.token, this.league.id);
-        this.users = users;
+        for (let u of users) {
+            let manager = await getUserProfile(
+                this.token,
+                this.league.id,
+                u.id
+            );
+            console.log(manager);
+        }
     },
     watch: {
         async league() {
-            let [myLeague, users] = await Promise.all([
-                myLeagueInfo(this.league.id, this.token),
-                getLeagueUsers(this.token, this.league.id),
-            ]);
+            let myLeague = await myLeagueInfo(this.league.id, this.token);
             this.myLeague = myLeague;
-            this.users = users;
         },
     },
 };
