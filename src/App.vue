@@ -1,65 +1,93 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" dark>
-            <v-app-bar-nav-icon
-                @click.stop="drawer = !drawer"
-            ></v-app-bar-nav-icon>
-            <div class="d-flex align-center">
-                <v-img
-                    alt="Vuetify Logo"
-                    class="shrink mr-2"
-                    contain
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-                    transition="scale-transition"
-                    width="40"
-                />
+        <v-app-bar app color="white" flat>
+            <v-container class="py-0 fill-height">
+                <v-avatar
+                    class="mr-10"
+                    color="grey darken-1"
+                    size="32"
+                    @click="selectCategory(null)"
+                ></v-avatar>
 
-                <v-img
-                    alt="Vuetify Name"
-                    class="shrink mt-1 hidden-sm-and-down"
-                    contain
-                    min-width="100"
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-                    width="100"
-                />
-            </div>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-                href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                target="_blank"
-                text
-            >
-                <span class="mr-2">Latest Release</span>
-                <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
-        </v-app-bar>
-        <v-navigation-drawer app v-model="drawer" class="pt-4">
-            <v-list nav dense>
-                <v-list-item-group
-                    v-model="selectedLeague"
-                    active-class="deep-purple--text text--accent-4"
-                    v-show="leagues"
-                    mandatory
+                <v-btn
+                    v-for="(link, n) in links"
+                    :key="n"
+                    text
+                    color="primary"
+                    @click="selectCategory(n)"
                 >
-                    <v-list-item v-for="league in leagues" :key="league.id">
-                        <v-list-item-title>{{ league.name }}</v-list-item-title>
-                    </v-list-item>
-                </v-list-item-group>
-            </v-list>
-        </v-navigation-drawer>
+                    {{ link }}
+                </v-btn>
 
-        <v-main>
-            <Login v-on:loggedIn="onLogin" v-if="token === null"></Login>
-            <UserCard
-                :user="user"
-                v-if="token !== null && selectedLeague === null"
-            ></UserCard>
-            <League
-                v-if="selectedLeague !== null"
-                :league="leagues[selectedLeague]"
-            ></League>
+                <v-spacer></v-spacer>
+
+                <v-responsive max-width="260">
+                    <v-text-field
+                        dense
+                        flat
+                        hide-details
+                        rounded
+                        solo-inverted
+                    ></v-text-field>
+                </v-responsive>
+            </v-container>
+        </v-app-bar>
+
+        <v-main class="grey lighten-3">
+            <v-container>
+                <v-row>
+                    <v-col cols="2">
+                        <v-sheet rounded="lg">
+                            <v-list nav dense>
+                                <v-list-item-group
+                                    v-model="selectedLeague"
+                                    active-class="deep-purple--text text--accent-4"
+                                    v-show="leagues"
+                                    mandatory
+                                >
+                                    <v-list-item
+                                        v-for="league in leagues"
+                                        :key="league.id"
+                                    >
+                                        <v-list-item-title>{{
+                                            league.name
+                                        }}</v-list-item-title>
+                                    </v-list-item>
+                                </v-list-item-group>
+                                <v-divider class="my-2"></v-divider>
+                                <v-list-item link color="grey lighten-4">
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Logout
+                                        </v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-sheet>
+                    </v-col>
+
+                    <v-col>
+                        <v-sheet min-height="70vh" rounded="lg">
+                            <Login
+                                v-on:loggedIn="onLogin"
+                                v-if="token === null"
+                            ></Login>
+                            <UserCard
+                                :user="user"
+                                v-if="
+                                    token !== null && selectedCategory === null
+                                "
+                            ></UserCard>
+                            <League
+                                v-if="
+                                    token !== null && selectedCategory == 0
+                                "
+                                :league="leagues[selectedLeague]"
+                            ></League>
+                        </v-sheet>
+                    </v-col>
+                </v-row>
+            </v-container>
         </v-main>
     </v-app>
 </template>
@@ -78,16 +106,12 @@ export default {
     data: () => ({
         user: null,
         leagues: null,
-        drawer: false,
         selectedLeague: null,
+        selectedCategory: 0,
+        links: ["Dashboard", "User", "Statistics"],
     }),
     computed: {
         ...mapGetters(["token"]),
-    },
-    watch: {
-        selectedLeague() {
-            this.drawer = false;
-        },
     },
     methods: {
         onLogin: async function({ user, leagues }) {
@@ -95,6 +119,10 @@ export default {
             this.leagues = leagues;
             console.log(this.user);
             console.log(this.leagues);
+        },
+        selectCategory(number) {
+            this.selectedCategory = number;
+            console.log("Selected:", number);
         },
     },
 };
