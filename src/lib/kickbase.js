@@ -2,6 +2,7 @@ import axios from "axios";
 import { User } from "@/lib/models/user.js";
 import LeagueData from "@/lib/models/league_data.js";
 import MyLeague from "@/lib/models/my_league.js";
+import { UserProfile } from "@/lib/models/user_profile.js";
 
 async function login(email, password) {
     try {
@@ -70,4 +71,20 @@ async function getLeagueUsers(accessToken, leagueId) {
     }
 }
 
-export { login, myLeagueInfo, getLeagues, getLeagueUsers };
+async function getUserProfile(accessToken, leagueId, userId) {
+    try {
+        const { data } = await axios.post(
+            `https://europe-west3-kickbase-312916.cloudfunctions.net/userProfile`,
+            {
+                token: accessToken,
+                leagueId: leagueId,
+                userId: userId,
+            }
+        );
+        return new UserProfile(data);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { login, myLeagueInfo, getLeagues, getLeagueUsers, getUserProfile };
